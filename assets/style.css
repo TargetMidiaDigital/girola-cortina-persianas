@@ -402,7 +402,7 @@ section.dark .section-cta-note { color: var(--beige-light); }
   margin-top: 18px;
 }
 @media (min-width: 600px) { .showcase-thumbs { grid-template-columns: repeat(4, 1fr); } }
-@media (min-width: 960px) { .showcase-thumbs { grid-template-columns: repeat(7, 1fr); gap: 14px; } }
+@media (min-width: 960px) { .showcase-thumbs { grid-template-columns: repeat(8, 1fr); gap: 12px; } }
 
 .showcase-thumb {
   display: flex;
