@@ -420,6 +420,27 @@ section.dark .section-cta-note { color: var(--beige-light); }
 @media (min-width: 600px) { .showcase-thumbs { grid-template-columns: repeat(4, 1fr); } }
 @media (min-width: 960px) { .showcase-thumbs { grid-template-columns: repeat(8, 1fr); gap: 12px; } }
 
+/* Mobile: miniaturas viram uma faixa horizontal deslizável */
+@media (max-width: 599px) {
+  .showcase-thumbs {
+    display: flex;
+    grid-template-columns: none;
+    gap: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 16px -24px 0;
+    padding: 4px 24px 6px;
+  }
+  .showcase-thumbs::-webkit-scrollbar { display: none; }
+  .showcase-thumb {
+    flex: 0 0 30%;
+    min-width: 112px;
+    scroll-snap-align: start;
+  }
+}
+
 .showcase-thumb {
   display: flex;
   flex-direction: column;

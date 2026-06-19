@@ -50,22 +50,43 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   const showcase = document.getElementById('modelos-showcase');
   if (!showcase) return;
 
+  const stage = showcase.querySelector('.showcase-stage');
   const panels = Array.from(showcase.querySelectorAll('.showcase-panel'));
   const thumbs = Array.from(showcase.querySelectorAll('.showcase-thumb'));
+  let current = 0;
 
-  function select(i) {
-    panels.forEach((p, pi) => p.classList.toggle('active', pi === i));
+  function select(i, scrollThumb) {
+    current = (i + panels.length) % panels.length;
+    panels.forEach((p, pi) => p.classList.toggle('active', pi === current));
     thumbs.forEach((t, ti) => {
-      const on = ti === i;
+      const on = ti === current;
       t.classList.toggle('active', on);
       t.setAttribute('aria-selected', on ? 'true' : 'false');
     });
+    if (scrollThumb && thumbs[current]) {
+      thumbs[current].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
   }
 
   thumbs.forEach((thumb, i) => {
     thumb.setAttribute('role', 'tab');
-    thumb.addEventListener('click', () => select(i));
+    thumb.addEventListener('click', () => select(i, true));
   });
+
+  // Swipe no painel (mobile) para passar entre modelos
+  if (stage) {
+    let startX = 0, startY = 0;
+    stage.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX; startY = e.touches[0].clientY;
+    }, { passive: true });
+    stage.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - startX;
+      const dy = e.changedTouches[0].clientY - startY;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
+        select(current + (dx < 0 ? 1 : -1), true);
+      }
+    }, { passive: true });
+  }
 })();
 
 // ── Header com sombra ao rolar ──
