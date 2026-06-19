@@ -3,6 +3,44 @@
    script.js — reveal, FAQ accordion, smooth scroll, header
    ============================================ */
 
+// ── Vídeo de fundo do Hero: força autoplay; se bloqueado, mostra a imagem ──
+(function () {
+  const v = document.querySelector('.hero-video');
+  if (!v) return;
+
+  // garante muted/inline antes de tentar tocar (exigência de iOS/Android)
+  v.muted = true;
+  v.defaultMuted = true;
+  v.setAttribute('muted', '');
+  v.playsInline = true;
+
+  let settled = false;
+  function showImage() {
+    if (settled) return;
+    settled = true;
+    v.classList.add('is-hidden'); // revela o background-image do #hero
+  }
+  function markPlaying() { settled = true; }
+
+  function attempt() {
+    if (settled) return;
+    const p = v.play();
+    if (p && typeof p.then === 'function') {
+      p.then(markPlaying).catch(() => {
+        // tenta de novo no primeiro toque/scroll; se nem assim, mostra a imagem
+        const retry = () => { v.play().then(markPlaying).catch(showImage); cleanup(); };
+        const cleanup = () => ['touchstart', 'pointerdown', 'scroll'].forEach(ev => window.removeEventListener(ev, retry));
+        ['touchstart', 'pointerdown', 'scroll'].forEach(ev => window.addEventListener(ev, retry, { passive: true, once: true }));
+        // fallback final: se continuar pausado, troca pela imagem
+        setTimeout(() => { if (v.paused) showImage(); }, 1500);
+      });
+    }
+  }
+
+  if (v.readyState >= 2) attempt();
+  else v.addEventListener('canplay', attempt, { once: true });
+})();
+
 // ── Reveal on scroll ──
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {

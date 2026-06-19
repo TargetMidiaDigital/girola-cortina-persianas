@@ -249,6 +249,7 @@ section.dark .section-cta-note { color: var(--beige-light); }
   z-index: 0;
 }
 @media (prefers-reduced-motion: reduce) { .hero-video { display: none; } }
+.hero-video.is-hidden { display: none; }
 
 .hero-inner { position: relative; z-index: 2; width: 100%; }
 
