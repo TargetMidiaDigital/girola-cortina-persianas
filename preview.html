@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Preview — Girola Cortinas e Persianas</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #243329; font-family: sans-serif; padding: 32px 24px; }
+    .preview-header {
+      color: #fff; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 20px; opacity: 0.7;
+    }
+    .preview-header strong { opacity: 1; color: #d8bd7e; font-size: 15px; }
+    .preview-badge {
+      display: inline-block; background: rgba(201,169,97,0.18); color: #d8bd7e;
+      font-size: 11px; padding: 3px 10px; border-radius: 4px; margin-left: 12px; vertical-align: middle;
+    }
+    .device-wrapper { position: relative; width: 100%; max-width: 1440px; margin: 0 auto 48px; }
+    .device-label { color: #8ba89e; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+    .iframe-container {
+      position: relative; width: 100%;
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; overflow: hidden; background: #fff;
+    }
+    .iframe-desktop { width: 1440px; height: 900px; transform-origin: top left; }
+    .iframe-mobile { width: 390px; height: 844px; transform-origin: top left; }
+    iframe { border: none; display: block; }
+    .open-link { display: inline-block; margin-top: 16px; color: #8ba89e; font-size: 12px; text-decoration: none; }
+    .open-link:hover { color: #d8bd7e; }
+  </style>
+</head>
+<body>
+  <div class="preview-header">
+    <strong>Preview — Cortinas e Persianas Sob Medida</strong>
+    <span class="preview-badge">Antes da produção</span>
+    <span class="preview-badge">Girola Cortinas e Persianas</span>
+  </div>
+
+  <div class="device-wrapper" id="desktop-wrapper">
+    <div class="device-label">Desktop — 1440px</div>
+    <div class="iframe-container" id="desktop-container">
+      <iframe id="iframe-desktop" class="iframe-desktop" src="index.html"></iframe>
+    </div>
+    <a class="open-link" href="index.html" target="_blank">↗ Abrir em tela cheia</a>
+  </div>
+
+  <div class="device-wrapper" id="mobile-wrapper" style="max-width: 420px;">
+    <div class="device-label">Mobile — 390px</div>
+    <div class="iframe-container" id="mobile-container">
+      <iframe id="iframe-mobile" class="iframe-mobile" src="index.html"></iframe>
+    </div>
+  </div>
+
+  <script>
+    function scaleIframes() {
+      const desktopContainer = document.getElementById('desktop-container');
+      const iframeDesktop = document.getElementById('iframe-desktop');
+      const desktopScale = desktopContainer.offsetWidth / 1440;
+      iframeDesktop.style.transform = `scale(${desktopScale})`;
+      desktopContainer.style.height = (900 * desktopScale) + 'px';
+
+      const mobileContainer = document.getElementById('mobile-container');
+      const iframeMobile = document.getElementById('iframe-mobile');
+      const mobileScale = mobileContainer.offsetWidth / 390;
+      iframeMobile.style.transform = `scale(${mobileScale})`;
+      mobileContainer.style.height = (844 * mobileScale) + 'px';
+    }
+    scaleIframes();
+    window.addEventListener('resize', scaleIframes);
+  </script>
+</body>
+</html>
